@@ -15,6 +15,7 @@
 */
 
 var busyIndicator = null;
+var useOAuth = true;
 var DataPowerChallengeHandler = WL.Client.createChallengeHandler();
 
 function wlCommonInit(){
@@ -25,17 +26,30 @@ function getData(){
 	busyIndicator.show();
 	$('#result').empty();
 	$('#auth').hide();
+	var adapterName = 'Protected';
+	var procedureName = 'getSecretData';
 	
-	var invocationData = {
-		    adapter : 'Protected',
-		    procedure : 'getSecretData',
-		};
-	var options = {
-		    onSuccess : loadSuccess,
-		    onFailure : loadFailure,
-		    invocationContext: {}
-		};
-	WL.Client.invokeProcedure(invocationData, options);
+	if(useOAuth){
+		var resourceRequest = new WLResourceRequest(
+			    "/adapters/" + adapterName + "/" + procedureName,
+			    WLResourceRequest.GET
+			);
+		resourceRequest.send().then(
+				loadSuccess,
+				loadFailure
+			)
+	} else{
+		var invocationData = {
+			    adapter : adapterName,
+			    procedure : procedureName,
+			};
+		var options = {
+			    onSuccess : loadSuccess,
+			    onFailure : loadFailure,
+			    invocationContext: {}
+			};
+		WL.Client.invokeProcedure(invocationData, options);
+	}
 }
 
 
