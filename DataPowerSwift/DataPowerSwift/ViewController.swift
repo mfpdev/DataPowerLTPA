@@ -18,6 +18,8 @@ import UIKit
 import IBMMobileFirstPlatformFoundation
 
 class ViewController: UIViewController {
+    
+    let useOAuth = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +33,26 @@ class ViewController: UIViewController {
 
     @IBAction func getData(sender: UIButton) {
         
-        let invocationData = WLProcedureInvocationData(adapterName: "Protected", procedureName: "getSecretData")
         let invokeListener = InvokeListener(vc: self)
-        WLClient.sharedInstance().invokeProcedure(invocationData, withDelegate: invokeListener)
+
+        if(useOAuth){
+            let request = WLResourceRequest(
+                URL: NSURL(string: "/adapters/Protected/getSecretData"),
+                method: WLHttpMethodGet
+            )
+            request.sendWithCompletionHandler({ (response, error) -> Void in
+                if(error != nil){
+                    invokeListener.onFailure(response as! WLFailResponse)
+                }
+                else{
+                    invokeListener.onSuccess(response)
+                }
+            })
+        }
+        else{
+            let invocationData = WLProcedureInvocationData(adapterName: "Protected", procedureName: "getSecretData")
+            WLClient.sharedInstance().invokeProcedure(invocationData, withDelegate: invokeListener)
+        }
         
     }
     @IBAction func logout(sender: UIButton) {
