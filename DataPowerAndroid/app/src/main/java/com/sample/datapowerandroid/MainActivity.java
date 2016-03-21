@@ -1,11 +1,8 @@
 package com.sample.datapowerandroid;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,10 +14,14 @@ import com.worklight.wlclient.WLRequestListener;
 import com.worklight.wlclient.api.WLClient;
 import com.worklight.wlclient.api.WLFailResponse;
 import com.worklight.wlclient.api.WLProcedureInvocationData;
+import com.worklight.wlclient.api.WLResourceRequest;
 import com.worklight.wlclient.api.WLResponse;
 import com.worklight.wlclient.api.WLResponseListener;
 
 import org.json.JSONException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity _this;
     private static final String TAG = "MainActivity";
     private DataPowerChallengeHandler challengeHandler;
+    private boolean useOAuth = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +53,48 @@ public class MainActivity extends AppCompatActivity {
         buttonGetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WLProcedureInvocationData invocationData = new WLProcedureInvocationData("Protected","getSecretData");
-                WLClient.getInstance().invokeProcedure(invocationData, new WLResponseListener() {
-                    @Override
-                    public void onSuccess(WLResponse wlResponse) {
-                        try {
-                            _this.showAlert("Success",wlResponse.getResponseJSON().getString("data"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if(useOAuth){
+                    try {
+                        URI adapterPath = new URI("/adapters/Protected/getSecretData");
+                        WLResourceRequest request = new WLResourceRequest(adapterPath, WLResourceRequest.GET);
+                        request.send(new WLResponseListener() {
+                            @Override
+                            public void onSuccess(WLResponse wlResponse) {
+                                try {
+                                    _this.showAlert("Success",wlResponse.getResponseJSON().getString("data"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(WLFailResponse wlFailResponse) {
-                        _this.showAlert("Failure",wlFailResponse.getErrorMsg());
+                            @Override
+                            public void onFailure(WLFailResponse wlFailResponse) {
+                                _this.showAlert("Failure",wlFailResponse.getErrorMsg());
+                            }
+                        });
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+                else{
+                    WLProcedureInvocationData invocationData = new WLProcedureInvocationData("Protected","getSecretData");
+                    WLClient.getInstance().invokeProcedure(invocationData, new WLResponseListener() {
+                        @Override
+                        public void onSuccess(WLResponse wlResponse) {
+                            try {
+                                _this.showAlert("Success",wlResponse.getResponseJSON().getString("data"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(WLFailResponse wlFailResponse) {
+                            _this.showAlert("Failure",wlFailResponse.getErrorMsg());
+                        }
+                    });
+                }
+
             }
         });
 
