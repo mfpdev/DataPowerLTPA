@@ -28,7 +28,7 @@ function getData(){
 	$('#auth').hide();
 	var adapterName = 'Protected';
 	var procedureName = 'getSecretData';
-	
+
 	if(useOAuth){
 		var resourceRequest = new WLResourceRequest(
 			    "/adapters/" + adapterName + "/" + procedureName,
@@ -37,7 +37,7 @@ function getData(){
 		resourceRequest.send().then(
 				loadSuccess,
 				loadFailure
-			)
+			);
 	} else{
 		var invocationData = {
 			    adapter : adapterName,
@@ -62,10 +62,10 @@ function loadSuccess(result){
 function loadFailure(result){
 	WL.Logger.error("Data retrieve failure");
 	busyIndicator.hide();
-	WL.SimpleDialog.show("DataPower", "Service not available. Try again later.", 
+	WL.SimpleDialog.show("DataPower", "Service not available. Try again later.",
 			[{
 				text : 'Reload',
-				handler : WL.Client.reloadApp 
+				handler : WL.Client.reloadApp
 			},
 			{
 				text: 'Close',
@@ -80,11 +80,11 @@ DataPowerChallengeHandler.isCustomResponse = function(response){
         return false;
     }
     var indicatorIdx = response.responseText.search('j_security_check');
-     
+
     if (indicatorIdx >= 0){
         return true;
-    } 
-    
+    }
+
     return false;
 };
 
@@ -123,4 +123,3 @@ $('#logout').on('click',function(){
 		}
 	});
 });
-
