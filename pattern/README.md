@@ -19,7 +19,7 @@ MFP_LTPA_Integration
 IBM
 
 ### Category
-MobileFirst Platform
+MobileFirst Foundation
 
 ### Keywords
 MobileFirst, LTPA, mfp, mobile
