@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup geo
  * This class defines a coordinate on the globe.
  */
 @interface WLCoordinate : NSObject {
@@ -48,7 +47,6 @@
 /**
  * This method returns the latitude of the coordinate
  *
- * @param None
  * @return the coordinate's latitude.
  **/
 - (double) getLatitude  ;
@@ -56,7 +54,6 @@
 /**
  * This method returns the longitude of the coordinate
  *
- * @param None
  * @return the coordinate's longitude.
  **/
 - (double) getLongitude  ;
@@ -64,7 +61,6 @@
 /**
  * This method returns the accuracy of the coordinate, in meters.
  *
- * @param None
  * @return The coordinate's accuracy, in meters.
  **/
 - (double) getAccuracy  ;
@@ -72,7 +68,6 @@
 /**
  * This method returns the altitude of the coordinate, in meters, if available. If unavailable, <code>null</code> is returned.
  *
- * @param None
  * @return The coordinate's altitude, in meters.
  **/
 - (NSNumber*) getAltitude  ;
@@ -80,7 +75,6 @@
 /**
  * This method returns the altitude accuracy of the coordinate,, in meters, if available. If unavailable, <code>null</code> is returned.
  *
- * @param None
  * @return The coordinate's altitude accuracy, in meters.
  **/
 - (NSNumber*) getAltitudeAccuracy  ;
@@ -88,7 +82,6 @@
 /**
  * This method returns the heading of the coordinate, in degrees (0–360), if available. If unavailable, <code>null</code> is returned.
  *
- * @param None
  * @return The coordinate's heading, in degrees [0-360).
  **/
 - (NSNumber*) getHeading  ;
@@ -96,7 +89,6 @@
 /**
  * This method returns the speed of the coordinate, in meters per second, if available.If unavailable, <code>null</code> is returned.
  *
- * @param None
  * @return The coordinate's speed, in meters per second.
  **/
 - (NSNumber*) getSpeed  ;

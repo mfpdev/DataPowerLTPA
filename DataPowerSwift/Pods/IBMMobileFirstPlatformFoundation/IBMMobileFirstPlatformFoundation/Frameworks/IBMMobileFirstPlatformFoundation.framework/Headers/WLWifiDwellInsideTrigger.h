@@ -11,11 +11,10 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger definition for dwelling a period of time inside an area. In order to re-activate
  * the device must first leave the area. The area is defined by the visibility
  * of a set of given access points.
- * <p>
+ * 
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls.
  */

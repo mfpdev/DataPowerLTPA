@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 
 /**
-* @ingroup geo
 * Controls how WiFi locations will be acquired.
-* <p>
+* 
 * This class, like most classes used for configuring location services, returns
 * a reference to this object from its setters, to enable chaining calls. 
 */
@@ -29,7 +28,7 @@
 /**
 	 * @return the signal strength threshold as a percentage.
 	 * The default value is 15.
-	 * @see #setSignalStrengthThreshold(int) 
+	 * @see setSignalStrengthThreshold:
 	 */
 - (int) getSignalStrengthThreshold  ;
 /**
@@ -49,7 +48,7 @@
 /**
 	 * @param accessPointFilters Only WiFi access points which match one of the access point filters will be visible. If the connected
 	 * access point does not match any of the filters, it too will not be visible when using on-going acquisition (see
-	 * {@link WLDevice#startAcquisition(com.worklight.location.api.WLLocationServicesConfiguration)}).
+	 * [WLDevice startAcquisition:]).
 	 * If <code>null</code> will be treated as an empty list.
 	 * @return A reference to this object.
 	 */

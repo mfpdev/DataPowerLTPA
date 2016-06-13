@@ -1,9 +1,14 @@
-/*
- * Licensed Materials - Property of IBM
- * 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
- * US Government Users Restricted Rights - Use, duplication or
- * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
  
 //
 //  WLResourceRequest.h
@@ -69,6 +74,13 @@ extern NSString * const WLHttpMethodDelete;
 
 /**
  *
+ * Scope protecting the request
+ *
+ */
+@property (readonly) NSString* scope;
+
+/**
+ *
  * HTTP method of the request
  *
  */
@@ -113,17 +125,41 @@ extern NSString * const WLHttpMethodDelete;
 
 /**
  *
+ * Creates an instance of <code>WLresourceRequest</code> with the specified URL and method
+ * @param url URL of the request (full or relative to MobileFirst Server)
+ * @param method Method of the request (POST, GET,...)
+ * @param scope the scope that this protected resource requires
+ *
+ */
++(WLResourceRequest*) requestWithURL:(NSURL*)url method:(NSString*)method scope:(NSString*)scope;
+
+/**
+ *
  * Creates an instance of <code>WLresourceRequest</code> with the specified URL, method, and timeout
  * @param url URL of the request (full or relative to MobileFirst Server)
  * @param method Method of the request (POST, GET,...)
  * @param timeout Timeout of the request in seconds
  *
  */
-+(WLResourceRequest*) requestWithURL:(NSURL*)url method:(NSString*)method timeout:(NSTimeInterval)timeout;
++(WLResourceRequest*) requestWithURL:
+                  (NSURL*)url method:
+           (NSString*)method timeout:(NSTimeInterval)timeout;
 
 /**
  *
- * Sets query parameter value 
+ * Creates an instance of <code>WLresourceRequest</code> with the specified URL, method, and timeout
+ * @param url URL of the request (full or relative to MobileFirst Server)
+ * @param method Method of the request (POST, GET,...)
+ * @param timeout Timeout of the request in seconds
+ * @param scope the scope that this protected resource requires
+ */
++(WLResourceRequest*) requestWithURL:
+(NSURL*)url method:
+(NSString*)method timeout:(NSTimeInterval)timeout scope:(NSString*)scope;
+
+/**
+ *
+ * Sets query parameter value
  * 
  * If the query parameter with the same name already exists, it is overridden.
  * @param parameterValue Parameter value
@@ -131,6 +167,13 @@ extern NSString * const WLHttpMethodDelete;
  *
  */
 -(void)setQueryParameterValue:(NSString*)parameterValue forName:(NSString*)parameterName;
+
+/**
+ *
+ * Returns the query parameters as string
+ *
+ */
+-(NSString*)getQueryString;
 
 /**
  *
@@ -163,7 +206,7 @@ extern NSString * const WLHttpMethodDelete;
  * Sets the header for the request 
  *
  * If a header with the same name already exists, it is overridden.
- * <p>
+ * 
  * Note: The header name is case insensitive.
  * @param value Header value
  * @param name Header name
@@ -176,7 +219,7 @@ extern NSString * const WLHttpMethodDelete;
  * Adds the header to the request 
  *
  * If a header with the same name already exists, the values are concatenated and separated by commas.
- * <p>
+ * 
  * Note: The header name is case insensitive.
  * @param value Header value
  * @param name Header name
@@ -203,8 +246,8 @@ extern NSString * const WLHttpMethodDelete;
 /**
  *
  * Sends a request and uses a delegate to handle the response
- * @param delegate Delegate that conforms to both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols
- * Note: The delegate must implement both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols.
+ * @param delegate Delegate that conforms to both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols
+ * Note: The delegate must implement both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols.
  *
  */
 -(void)sendWithDelegate:(id)delegate;
@@ -224,8 +267,8 @@ extern NSString * const WLHttpMethodDelete;
  *
  * Sends a request with the provided text as a request body and uses a delegate to handle the response
  * @param body Request body
- * @param delegate Delegate that conforms to both NSURLConnectionDataDelegate and NSURLConnectionDelegate protocols
- * Note: The delegate must implement both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols.
+ * @param delegate Delegate that conforms to both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols
+ * Note: The delegate must implement both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols.
  * Note: Using methods other than POST or PUT will omit the request body.
  *
  */
@@ -246,8 +289,8 @@ extern NSString * const WLHttpMethodDelete;
  *
  * Sends a request with form parameters as a request body and uses a delegate to handle the response
  * @param bodyParameters Dictionary of form parameters
- * @param delegate Delegate that conforms to both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols
- * Note: The delegate must implement both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols.
+ * @param delegate Delegate that conforms to both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols
+ * Note: The delegate must implement both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols.
  * Note: Using methods other than POST or PUT will omit the request body.
  *
  */
@@ -268,8 +311,8 @@ extern NSString * const WLHttpMethodDelete;
  *
  * Sends a request with the provided JSON and uses a delegate to handle the response
  * @param json JSON as a dictionary
- * @param delegate Delegate that conforms to both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols
- * Note: The delegate must implement both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols.
+ * @param delegate Delegate that conforms to both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols
+ * Note: The delegate must implement both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols.
  * Note: Using methods other than POST or PUT will omit the request body.
  *
  */
@@ -290,8 +333,8 @@ extern NSString * const WLHttpMethodDelete;
  *
  * Sends a request with the provided request data and uses a delegate to handle the response
  * @param data Request data
- * @param delegate Delegate that conforms to both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols
- * Note: The delegate must implement both <code>NSURLConnectionDataDelegate</code> and <code>NSURLConnectionDelegate</code> protocols.
+ * @param delegate Delegate that conforms to both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols
+ * Note: The delegate must implement both <code>NSURLSessionDataDelegate</code> and <code>NSURLSessionTaskDelegate</code> protocols.
  * Note: Using methods other than POST or PUT will omit the request body
  *
  */

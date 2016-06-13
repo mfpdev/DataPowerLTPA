@@ -13,9 +13,8 @@
 
 
 /**
- * @ingroup geo
  * A trigger definition that is activated when the device remains inside an area for a specified period of time. In order to reactivate the trigger, the device must first leave the area, and then return to the area.
- * <p>
+ * 
  * The setters of this class return a reference to this object so as to enable chaining calls.
  */
 @interface WLGeoDwellInsideTrigger : AbstractGeoDwellTrigger {
@@ -24,7 +23,6 @@
 /**
  * This method initializes the trigger definition.
  *
- * @param None.
  **/
 - (id) init  ;
 - (WLGeoDwellInsideTrigger*) clone  ;

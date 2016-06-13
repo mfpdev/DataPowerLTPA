@@ -10,7 +10,6 @@
 #import "AcquisitionFailureCallback.h"
 
 /**
- * @ingroup geo
  * A callback for when an error occurs in Geo acquisition
  */
 @protocol WLGeoFailureCallback <AcquisitionFailureCallback> 

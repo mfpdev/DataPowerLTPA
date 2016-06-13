@@ -11,9 +11,8 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger for tracking changes to the visible access points.
- * <p>
+ * 
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls.
  */

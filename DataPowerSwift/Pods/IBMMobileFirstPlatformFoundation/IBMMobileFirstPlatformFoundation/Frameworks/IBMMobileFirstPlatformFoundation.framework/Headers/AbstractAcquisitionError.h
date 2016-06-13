@@ -16,7 +16,7 @@
 
 
 - (id) init : (NSString*) message ;
-/**
+/*
 	 * @return the message for the error.
 	 */
 - (NSString*) getMessage  ;

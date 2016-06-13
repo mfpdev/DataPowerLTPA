@@ -11,10 +11,9 @@
 @class WLTriggersConfiguration;
 
 /**
- * @ingroup geo
  * The configuration for on-going acquisition, including the
  * acquisition policy, triggers, and failure callbacks for handling acquisition errors.
- * <p>
+ * 
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls. 
  * 
@@ -48,7 +47,7 @@
 /**
 	 * @param policy the acquisition policy to set.
 	 * @return A reference to this object.
-	 * @see WLDevice#startAcquisition(WLLocationServicesConfiguration)
+	 * @see [WLDevice startAcquisition:]
 	 */
 - (WLLocationServicesConfiguration*) setPolicy : (WLAcquisitionPolicy*) policy ;
 /**
@@ -58,7 +57,7 @@
 /**
 	 * @param triggers the triggers to be evaluated during ongoing acquisition.
 	 * @return A reference to this object.
-	 * @see WLDevice#startAcquisition(WLLocationServicesConfiguration)
+	 * @see [WLDevice startAcquisition:]
 	 */
 - (WLLocationServicesConfiguration*) setTriggers : (WLTriggersConfiguration*) triggers ;
 - (WLLocationServicesConfiguration*) clone  ;

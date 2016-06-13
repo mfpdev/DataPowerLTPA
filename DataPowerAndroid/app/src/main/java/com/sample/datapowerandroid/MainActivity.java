@@ -1,24 +1,26 @@
 package com.sample.datapowerandroid;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.worklight.wlclient.WLRequestListener;
-import com.worklight.wlclient.api.WLClient;
+import com.worklight.wlclient.api.WLAccessTokenListener;
+import com.worklight.wlclient.api.WLAuthorizationManager;
 import com.worklight.wlclient.api.WLFailResponse;
-import com.worklight.wlclient.api.WLProcedureInvocationData;
+import com.worklight.wlclient.api.WLLogoutResponseListener;
 import com.worklight.wlclient.api.WLResourceRequest;
 import com.worklight.wlclient.api.WLResponse;
 import com.worklight.wlclient.api.WLResponseListener;
-
-import org.json.JSONException;
+import com.worklight.wlclient.auth.AccessToken;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonLogout = null;
     private static MainActivity _this;
     private static final String TAG = "MainActivity";
-    private DataPowerChallengeHandler challengeHandler;
-    private boolean useOAuth = true;
+    private static boolean useObtain = false;
+    private BroadcastReceiver loginRequiredReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +40,35 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         _this = this;
 
-        //Create the WLClient instance
-        WLClient.createInstance(_this);
-
-        //Workaround to support DataPower redirects
-        WLClient.getInstance().setAllowHTTPClientCircularRedirect(true);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        buttonGetData = (Button)findViewById(R.id.getData);
-        buttonLogout = (Button)findViewById(R.id.logout);
+        buttonGetData = (Button)findViewById(R.id.getDataBtn);
+        buttonLogout = (Button)findViewById(R.id.logoutBtn);
 
         buttonGetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(useOAuth){
+                if(useObtain){
+                    WLAuthorizationManager.getInstance().obtainAccessToken("", new WLAccessTokenListener() {
+                        @Override
+                        public void onSuccess(AccessToken accessToken) {
+                            Log.d(TAG,"obtain onSuccess");
+                            _this.showAlert("Success", "Obtain Success");
+                        }
+
+                        @Override
+                        public void onFailure(WLFailResponse wlFailResponse) {
+                            Log.d(TAG,"obtain onFailure");
+                            _this.showAlert("Failure", "Obtain Failure");
+                        }
+                    });
+
+                } else{
                     try {
-                        URI adapterPath = new URI("/adapters/Protected/getSecretData");
-                        WLResourceRequest request = new WLResourceRequest(adapterPath, WLResourceRequest.GET);
+                        URI adaterPath = new URI("/adapters/ResourceAdapter/balance");
+                        WLResourceRequest request = new WLResourceRequest(adaterPath, WLResourceRequest.GET);
                         request.send(new WLResponseListener() {
                             @Override
                             public void onSuccess(WLResponse wlResponse) {
-                                try {
-                                    _this.showAlert("Success",wlResponse.getResponseJSON().getString("data"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                _this.showAlert("Success", wlResponse.getResponseText());
                             }
 
                             @Override
@@ -76,24 +80,6 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                else{
-                    WLProcedureInvocationData invocationData = new WLProcedureInvocationData("Protected","getSecretData");
-                    WLClient.getInstance().invokeProcedure(invocationData, new WLResponseListener() {
-                        @Override
-                        public void onSuccess(WLResponse wlResponse) {
-                            try {
-                                _this.showAlert("Success",wlResponse.getResponseJSON().getString("data"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(WLFailResponse wlFailResponse) {
-                            _this.showAlert("Failure",wlFailResponse.getErrorMsg());
-                        }
-                    });
-                }
 
             }
         });
@@ -101,22 +87,26 @@ public class MainActivity extends AppCompatActivity {
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WLClient.getInstance().logout("WASLTPARealm", new WLRequestListener() {
+                WLAuthorizationManager.getInstance().logout("LtpaBasedSSO", new WLLogoutResponseListener() {
                     @Override
-                    public void onSuccess(WLResponse wlResponse) {
-                        _this.showAlert("Success","Logged out");
+                    public void onSuccess() {
+                        showAlert("Logged out","Logout success");
                     }
 
                     @Override
                     public void onFailure(WLFailResponse wlFailResponse) {
-                        _this.showAlert("Error","Failed to log out");
+                        showAlert("Failure","Failed to logout");
                     }
                 });
             }
         });
 
-        challengeHandler = new DataPowerChallengeHandler(this);
-        WLClient.getInstance().registerChallengeHandler(challengeHandler);
+        loginRequiredReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                showLoginScreen();
+            }
+        };
 
     }
 
@@ -133,33 +123,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        boolean back = data.getBooleanExtra(LoginActivity.Back, true);
-        String username = data.getStringExtra(LoginActivity.UserNameExtra);
-        String password = data.getStringExtra(LoginActivity.PasswordExtra);
-        challengeHandler.submitLogin(resultCode, username, password, back);
+    private void showLoginScreen() {
+        Intent login = new Intent(_this, LoginActivity.class);
+        _this.startActivity(login);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver(loginRequiredReceiver, new IntentFilter(Constants.ACTION_LOGIN_REQUIRED));
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(loginRequiredReceiver);
+        super.onStop();
     }
 }

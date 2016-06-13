@@ -12,9 +12,8 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger definition that is activated when a device enters an area. To activate the trigger, the device must first have been outside the area, and then enter the area at the given confidence level.
- * <p>
+ *
  * The setters of this class return a reference to this object so as to enable chaining calls.
  */
 @interface WLGeoEnterTrigger : AbstractGeoAreaTrigger {
@@ -23,7 +22,6 @@
 /**
  * This method initializes the trigger definition.
  *
- * @param None.
  **/
 - (id) init  ;
 - (WLGeoEnterTrigger*) clone  ;

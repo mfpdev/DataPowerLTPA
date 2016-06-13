@@ -11,7 +11,6 @@
 @class WLGeoPosition;
 
 /**
- * @ingroup geo
  * This protocol is used to define callbacks for when a geographical position is acquired.
  */
 @protocol WLGeoCallback <AcquisitionCallback>

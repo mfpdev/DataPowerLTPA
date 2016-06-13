@@ -8,11 +8,11 @@
 #define _WLConfidenceLevel_H_
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, WLConfidenceLevel)  {
 	LOW, 
 	MEDIUM, 
 	HIGH
-} WLConfidenceLevel;
+};
 
 
 

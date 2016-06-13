@@ -1,9 +1,14 @@
-/*
- *  Licensed Materials - Property of IBM
- *  5725-I43 (C) Copyright IBM Corp. 2011, 2013. All Rights Reserved.
- *  US Government Users Restricted Rights - Use, duplication or
- *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 
 //
 //  WLChallengeHandler.h
@@ -17,7 +22,6 @@
 
 
 /**
- * @ingroup main
  * You use this base class to create an IBM MobileFirst Platform Challenge Handler.
  * You must extend this class to implement your own version of an IBM MobileFirst Platform Challenge Handler, for example RemoteDisableChallengeHandler.
  */

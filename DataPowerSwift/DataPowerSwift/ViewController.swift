@@ -1,29 +1,31 @@
-/**
- * Copyright 2016 IBM Corp.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+//
+//  ViewController.swift
+//  DataPowerSwift
+//
+//  Created by Nathan Hazout on 27/04/2016.
+//  Copyright © 2016 Nathan Hazout. All rights reserved.
+//
 
 import UIKit
 import IBMMobileFirstPlatformFoundation
 
 class ViewController: UIViewController {
     
-    let useOAuth = true
+    let useObtain = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        WLClient.sharedInstance().registerChallengeHandler(DataPowerChallengeHandler(vc: self))
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showLoginPage), name: ACTION_CHALLENGE_RECEIVED, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        super.viewDidDisappear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,48 +34,52 @@ class ViewController: UIViewController {
     }
 
     @IBAction func getData(sender: UIButton) {
-        
-        let invokeListener = InvokeListener(vc: self)
-
-        if(useOAuth){
-            let request = WLResourceRequest(
-                URL: NSURL(string: "/adapters/Protected/getSecretData"),
-                method: WLHttpMethodGet
-            )
-            request.sendWithCompletionHandler({ (response, error) -> Void in
+        if(self.useObtain) {
+            WLAuthorizationManager.sharedInstance().obtainAccessTokenForScope("", withCompletionHandler: { (token, error) in
                 if(error != nil){
-                    invokeListener.onFailure(response as! WLFailResponse)
-                }
-                else{
-                    invokeListener.onSuccess(response)
+                    self.showAlert("Error", message: error.description)
+                } else {
+                    self.showAlert("Success", message: "Token obtained")
                 }
             })
+            
+        } else {
+            let request = WLResourceRequest(
+                URL: NSURL(string: "/adapters/ResourceAdapter/balance"),
+                method: WLHttpMethodGet
+            )
+            request.sendWithCompletionHandler { (response, error) in
+                if(error != nil){
+                    self.showAlert("Error", message: error.description)
+                } else {
+                    self.showAlert("Success", message: response.responseText)
+                }
+            }
+            //request.sendWithDelegate(RequestDelegate());
         }
-        else{
-            let invocationData = WLProcedureInvocationData(adapterName: "Protected", procedureName: "getSecretData")
-            WLClient.sharedInstance().invokeProcedure(invocationData, withDelegate: invokeListener)
-        }
-        
+
     }
+    
     @IBAction func logout(sender: UIButton) {
-        WLClient.sharedInstance().logout("WASLTPARealm", withDelegate: LogoutListener(vc: self))
+        WLAuthorizationManager.sharedInstance().logout("LtpaBasedSSO") { (error) in
+            if(error != nil){
+                self.showAlert("Error", message: "Failed to logout")
+            } else {
+                self.showAlert("Success", message: "Logged out")
+            }
+        }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?){
-        let loginView = segue.destinationViewController as! LoginViewController
-        loginView.challengeHandler = sender as? DataPowerChallengeHandler
+    func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
     
-    func alert(alertTitle: String, msg:String){
-        let alert = UIAlertController(title: alertTitle, message: msg, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK",
-            style: .Default,
-            handler: nil))
-        self.presentViewController(alert,
-            animated: true,
-            completion: nil)
-
+    func showLoginPage(){
+        self.performSegueWithIdentifier("showLogin", sender: self)
     }
-
 }
 

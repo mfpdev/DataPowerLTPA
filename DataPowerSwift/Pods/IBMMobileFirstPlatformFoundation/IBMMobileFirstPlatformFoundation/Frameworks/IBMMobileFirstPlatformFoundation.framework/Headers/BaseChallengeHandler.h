@@ -1,9 +1,14 @@
-/*
- *  Licensed Materials - Property of IBM
- *  5725-I43 (C) Copyright IBM Corp. 2011, 2013. All Rights Reserved.
- *  US Government Users Restricted Rights - Use, duplication or
- *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 
 //  BaseChallengeHandler.h
 //  WorklightStaticLibProject
@@ -20,18 +25,18 @@
 
 @interface BaseChallengeHandler : NSObject {
     @private
-    NSString *realm;
+    NSString *securityCheck;
     
     @protected
     WLRequest *activeRequest;
     NSMutableArray *waitingRequestsList;
 }
 
-@property (nonatomic, strong) NSString *realm;
+@property (nonatomic, strong) NSString *securityCheck;
 @property (atomic, strong) WLRequest *activeRequest;
 @property (atomic, strong) NSMutableArray *waitingRequestsList;
 
--(id) initWithRealm: (NSString *) iRealm;
+-(id) initWithSecurityCheck: (NSString *) securityCheck;
 -(void) handleChallenge: (NSDictionary *)challenge;
 -(void) submitFailure: (WLResponse *)challenge;
 

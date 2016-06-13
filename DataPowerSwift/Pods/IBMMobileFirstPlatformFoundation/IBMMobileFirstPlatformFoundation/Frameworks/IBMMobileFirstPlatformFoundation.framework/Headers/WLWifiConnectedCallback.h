@@ -10,7 +10,6 @@
 @class WLWifiAccessPoint;
 
 /**
- * @ingroup geo
  * A callback for getting the connected WiFi access point
  */
 @protocol WLWifiConnectedCallback <NSObject> 

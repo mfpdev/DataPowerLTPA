@@ -11,12 +11,12 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger that activates when connecting for the first time to an access point that
  * passes the policy's filters. The trigger can re-activate only after disconnecting
  * or connecting to an access point which doesn't pass the policy's filters.
- * @see WLWifiAcquisitionPolicy#setAccessPointFilters(java.util.List)
- * <p>
+ *
+ * See also [WLWifiAcquisitionPolicy setAccessPointFilters:].
+ *
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls. 
  */

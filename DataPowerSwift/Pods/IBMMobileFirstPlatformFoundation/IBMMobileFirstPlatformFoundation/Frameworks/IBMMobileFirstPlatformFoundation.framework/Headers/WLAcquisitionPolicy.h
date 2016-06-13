@@ -11,11 +11,10 @@
 @class WLWifiAcquisitionPolicy;
 
 /**
- * @ingroup geo
  * The acquisition policy controls how Geo and WiFi locations will be acquired.
  *
- * The policy should be set in an instance of {@link WLLocationServicesConfiguration} which 
- * is then passed to {@link WLDevice#startAcquisition(WLLocationServicesConfiguration)}
+ * The policy should be set in an instance of WLLocationServicesConfiguration which 
+ * is then passed to [WLDevice startAcquisition:]
  * <p>
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls. 
@@ -45,7 +44,6 @@
 /**
  * This method returns the WiFi acquisition policy.
  *
- * @param None.
  * @return The WiFi acquisition policy.
  **/
 - (WLWifiAcquisitionPolicy*) getWifiPolicy  ;

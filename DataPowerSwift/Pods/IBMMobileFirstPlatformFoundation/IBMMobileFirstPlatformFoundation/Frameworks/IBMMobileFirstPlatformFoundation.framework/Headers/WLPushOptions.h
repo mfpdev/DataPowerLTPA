@@ -16,8 +16,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup push
- * 
  * This class contains the subscription parameters.
  */
 @interface WLPushOptions : NSObject

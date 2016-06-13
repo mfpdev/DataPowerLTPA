@@ -11,7 +11,6 @@
 @protocol WLWifiFailureCallback;
 
 /**
- * @ingroup geo
  * Configuration of the callbacks to be called when there is an acquisition failure.
  * <p>
  * This class defines the configuration of the callbacks that are called when there is an acquisition failure.
@@ -28,7 +27,6 @@
 /**
  * This method returns the WiFi failure callback. The default value is null.
  *
- * @param None.
  * @return The wifi failure callback. The default is <code>null</code>.
  **/
 - (id<WLWifiFailureCallback>) getWifiFailureCallback  ;
@@ -37,7 +35,6 @@
 /**
  * This method returns the geolocation failure callback. The default value is null.
  *
- * @param None.
  * @return The geo failure callback. The default is <code>null</code>.
  **/
 - (id<WLGeoFailureCallback>) getGeoFailureCallback  ;

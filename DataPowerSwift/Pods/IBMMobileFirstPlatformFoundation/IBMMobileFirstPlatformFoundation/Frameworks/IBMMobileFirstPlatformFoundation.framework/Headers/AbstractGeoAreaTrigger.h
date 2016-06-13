@@ -6,7 +6,6 @@
 */
 
 #define _AbstractGeoAreaTrigger_H_
-
 #import "WLConfidenceLevel.h"
 #import "WLGeoTrigger.h"
 @protocol WLArea;

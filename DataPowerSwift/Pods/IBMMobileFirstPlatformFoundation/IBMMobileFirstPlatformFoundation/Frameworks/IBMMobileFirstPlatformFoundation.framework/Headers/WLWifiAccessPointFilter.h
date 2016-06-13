@@ -10,17 +10,16 @@
 @class WLWifiAccessPoint;
 
 /**
- * @ingroup geo
  * Specifies which WiFi access points to detect.
- * <p>
+ * 
  * The filter has an SSID name specification, and optionally a MAC specification.
- * The MAC specification can be a wildcard value, represented by {@link #WILDCARD}, which is an asterisk (*), 
+ * The MAC specification can be a wildcard value, represented by WILDCARD, which is an asterisk (*), 
  * in which case all MACs for the SSID are reported.
- * <p>
+ * 
  * If no MAC is specified, and the given SSID is visible, then only its SSID is reported;
- * only a single {@link WLWifiAccessPoint}} instance will result from acquisition, regardless of the number of access points that have the SSID.
- * <p>
- * The SSID specification can be a wildcard, represented by {@link #WILDCARD}, which is an asterisk (*), in which case all visible networks are reported.
+ * only a single WLWifiAccessPoint instance will result from acquisition, regardless of the number of access points that have the SSID.
+ * 
+ * The SSID specification can be a wildcard, represented by WILDCARD, which is an asterisk (*), in which case all visible networks are reported.
  */
 @interface WLWifiAccessPointFilter : NSObject {
 	@private
@@ -45,18 +44,20 @@
 	 * @param mac The MAC specification
 	 */
 - (id)initWithSSID:(NSString*)ssid MAC:(NSString*)mac;
+
+//TO DO : was containing an unsupported @exclude tag
 /**
 	 * @param point The access point to check
 	 * @return <code>true</code> iff the point's SSID and MAC match the filter's SSID and MAC
-	 * @exclude
 	 */
 - (BOOL) matches : (WLWifiAccessPoint*) point ;
+
+// TO DO: was containing an unsupported @exclude tag
 /**
-	 * Returns true if there is a {@link WLWifiLocation} that can be matched by both filters
+	 * Returns true if there is a WLWifiLocation that can be matched by both filters
 	 * 
-	 * @param filter
-	 * @return <code>true</code> There could exists a {@link WLWifiAccessPoint} that could be matched by both filters
-	 * @exclude
+	 * @param filter The filter
+	 * @return <code>true</code> There could exists a WLWifiAccessPoint that could be matched by both filters
 	 */
 - (BOOL) isIntersectionNotEmpty : (WLWifiAccessPointFilter*) filter ;
 /**

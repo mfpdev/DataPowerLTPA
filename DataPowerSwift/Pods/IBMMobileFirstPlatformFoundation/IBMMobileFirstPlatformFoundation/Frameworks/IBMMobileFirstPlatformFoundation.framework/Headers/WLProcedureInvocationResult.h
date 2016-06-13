@@ -1,8 +1,13 @@
-/*
-* Licensed Materials - Property of IBM
-* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
-* US Government Users Restricted Rights - Use, duplication or
-* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 */
 
 //
@@ -16,8 +21,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup main
- *
  * This class contains the result of calling a back-end service, including statuses and data items that the adapter function retrieves from the server.
  */
 @interface WLProcedureInvocationResult : NSObject {

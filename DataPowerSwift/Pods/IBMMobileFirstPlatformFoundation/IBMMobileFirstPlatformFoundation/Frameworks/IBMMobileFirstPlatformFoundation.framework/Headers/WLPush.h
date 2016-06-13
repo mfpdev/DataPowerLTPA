@@ -21,7 +21,6 @@
 #import "WLPushOptions.h"
 
 /**
- * @ingroup push
  * This class exposes all the methods that are required for push notifications.
  */
 @interface WLPush : NSObject

@@ -24,7 +24,9 @@
 	 * @return the time when this position was acquired (number of milliseconds elapsed since Jan 1, 1970).
 	 */
 - (NSNumber*) getTimestamp  ;
-/**
+
+// TO DO : check if this method should excluded or not (was visible with Doxygen)
+/*
 	 * @exclude
 	 * for testing purposes only!
 	 */

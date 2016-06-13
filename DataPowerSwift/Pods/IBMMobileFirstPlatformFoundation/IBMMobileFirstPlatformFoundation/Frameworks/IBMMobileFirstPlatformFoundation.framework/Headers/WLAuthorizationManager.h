@@ -1,110 +1,74 @@
-/*
- * Licensed Materials - Property of IBM
- * 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
- * US Government Users Restricted Rights - Use, duplication or
- * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
 
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 
 #import <Foundation/Foundation.h>
 #import "WLResponse.h"
-
-
- 
-typedef NS_ENUM(NSInteger, WLAuthorizationPerisistencePolicy) {
-    WLAuthorizationPerisistencePolicyAlways = 0,
-    WLAuthorizationPerisistencePolicyNever = 1
-};
+#import "AccessToken.h"
 
 extern NSString * const ERROR_OAUTH_PREVENT_REDIRECT;
 extern NSString * const ERROR_OAUTH_CANCELED;
 
 /**
- * @ingroup main
- * This class manages the entire OAuth flow, from client registration to token generation.
+ * This class manages the OAuth interaction between the client and the authorization server
  */
-@interface WLAuthorizationManager : NSObject 
-/**
- *  Gets the cached authorization header from the keychain.
- */
-@property (nonatomic, readonly) NSString *cachedAuthorizationHeader;
+@interface WLAuthorizationManager : NSObject
 
 /**
- *  User identity dictionary
- *  Keys: <code>id</code>, <code>authBy</code>, <code>displayName</code>
+ * Returns the authorization server URL, if this was not set, the default MFP Authorization URL is returned
  */
-@property (nonatomic, readonly) NSDictionary *userIdentity;
+@property(atomic) NSURL *authorizationServerURL;
 
 /**
- *  Device identity dictionary
- *  Keys: <code>id</code>, <code>model</code>, <code>osVersion</code>, <code>platform</code>
+ * Gets the <code>WLAuthorizationManager</code> shared instance
+ *
+ * @return <code>WLAuthorizationManager</code> shared instance
  */
-@property (nonatomic, readonly) NSDictionary *deviceIdentity;
++ (WLAuthorizationManager *)sharedInstance;
+
 
 /**
- *  App identity dictionary
- *  Keys: <code>id</code>, <code>version</code>, <code>environment</code>
+ * Obtains an access token for the specified MobileFirst protected resource scope.
+ *
+ * @param scope The protected resource scope. ToDo - document the behaviour in case of nil or empty scope
+ * @param completionHandler Completion handler with response containing the access token, or error information in case of failure.
  */
-@property (nonatomic, readonly) NSDictionary *appIdentity;
+- (void) obtainAccessTokenForScope:(NSString *)scope
+             withCompletionHandler:(void(^) (AccessToken* accessToken, NSError* error))completionHandler;
 
 /**
- *  Gets the <code>WLAuthorizationManager</code> shared instance
+ *  Logout from the specified security check.
  *
- *  @return <code>WLAuthorizationManager</code> shared instance
+ *  @param NSString - The security check to log out from.
+ *  @param completionHandler Completion handler with response containing error information in case of failure.
  */
-+ (WLAuthorizationManager *) sharedInstance;
- 
-/**
- *  Explicit call to obtain the access token.
- *
- *  @param completionHandler Completion handler with response containing the authorization header value.
- *
- *  @param scope OAuth scope that the resource requires.
- */
-- (void) obtainAuthorizationHeaderForScope:(NSString*)scope completionHandler:(void(^) (WLResponse* response, NSError* error))completionHandler;
+- (void) logout:(NSString *)securityCheck
+withCompletionHandler:(void(^) (NSError* error))completionHandler;
 
 /**
- *  Adds the authorization header value to any <code>NSURLRequest</code> request
+ *  Login to the specified security check.
  *
- *  @param request Request
+ *  @param NSString - The security check to log in to.
+ *  @param NSDictionary - The credentials to use for login to the security check.
+ *  @param completionHandler Completion handler containing the error information in case of failure.
  */
-- (void) addCachedAuthorizationHeaderToRequest:(NSMutableURLRequest*)request;
+- (void) login:(NSString *)securityCheck
+withCredentials:(NSDictionary *)credentials
+withCompletionHandler:(void(^)(NSError* error))completionHandler;
 
 /**
- *  Sets the authorization policy that defines the way the application handles storing of authorization access tokens.
+ * Checks if the response for a request to a MobileFirst protected resource indicates that authorization is required.
  *
- *  @deprecated In MobileFirst Platform 7.1, persisting authorization headers on the client side has no effect, since the MobileFirst server persists the security data across sessions.
- *  @param policy Persistence policy.
- *  The policy can be one of the following:
- *	<ul>
- *  <li><code>__WLAuthorizationPerisistencePolicyAlways__</code>:
- *  Always store access token on the device (least secure option).
- *	The access tokens are persisted, regardless of whether Touch ID is present, supported, or enabled. 
- *  Touch ID and device passcode authentication are never required.</li>
- *  <li><code>__WLAuthorizationPerisistencePolicyNever__</code>:
- *  Never store access token on the device (most secure option).
- *	The access tokens are never persisted, meaning that an access token is valid for a single app session only.</li>
- *  </ul>
- *  The default policy is <code>__WLAuthorizationPerisistencePolicyAlways__</code>.
- *  <p>
- *  Examples of use:
- *  
- *  Set <code>__WLAuthorizationPerisistencePolicyAlways__</code> policy:<br />
- *          <pre><code>WLAuthorizationManager* manager = [WLAuthorizationManager sharedInstance];
- *          [manager setAuthorizationPersistencePolicy: WLAuthorizationPerisistencePolicyAlways];</code></pre>
- *  <p>
- *  Set <code>__WLAuthorizationPerisistencePolicyNever__</code> policy:<br />
- *          <pre><code>WLAuthorizationManager* manager = [WLAuthorizationManager sharedInstance];
- *          [manager setAuthorizationPersistencePolicy: WLAuthorizationPerisistencePolicyNever];</code></pre>
- */
-- (void) setAuthorizationPersistencePolicy: (WLAuthorizationPerisistencePolicy) policy;
-
-/**
- *  Checks whether the response is a MobileFirst OAuth error.
- *
- *  @param NSURLResponse response
- *
- *  @return true if the response is a MobileFirst OAuth error, or false otherwise.
+ * @param NSURLResponse response.
+ * @return true if MobileFirst authorization is required, false otherwise.
  */
 - (BOOL) isAuthorizationRequiredForResponse:(NSURLResponse *)response;
 
@@ -112,30 +76,43 @@ extern NSString * const ERROR_OAUTH_CANCELED;
  * Checks whether the response is a MobileFirst OAuth error.
  *
  * @param status HTTP status
- *
  * @param headers <code>NSDictionary</code> of response headers
- 
  * @return true if the response is a MobileFirst OAuth error, or false otherwise.
  */
 
-- (BOOL) isAuthorizationRequiredForResponseWithStatus:(NSInteger)status authorizationHeader:(NSString *) authorizationHeader;
+- (BOOL) isAuthorizationRequiredForResponseWithStatus:(NSInteger)status
+                                              headers:(NSDictionary *) headers;
 
 /**
- *  Gets the scope of the response from a protected resource
+ * Returns the resource scope from a response for a request to a MobileFirst protected resource.
  *
- *  @param response Response returned from protected resource
- *
- *  @return Scope that is returned in the <code>WWW-Authenticate</code> header
+ * @param response Response returned for the request to a protected resource.
+ * @return Scope that is returned in the <code>WWW-Authenticate</code> header
  */
-- (NSString *) authorizationScopeForResponse : (NSURLResponse *) response;
+- (NSString *) resourceScopeFromResponse:(NSURLResponse *)response;
 
 
 /**
- *  Gets the scope of the response from a protected resource
+ * Clears an invalid Access token from the WLAuthorizationManager cache
  *
- *  @param NSDictionary Response headers
- *
- *  @return Scope that is returned in the <code>WWW-Authenticate</code> header
+ * @param AccessToken to remove
  */
-- (NSString*) authorizationScopeForResponseWithAuthorizationHeader:(NSString *) authorizationHeader;
+- (void) clearAccessToken:(AccessToken *)accessToken;
+
+/**
+ * Sets the authorization server URL
+ * If this field is not set, the default MFP Authorization server URL is used
+ * @param the context root of the authorization server
+ */
+-(void) setAuthorizationServerURL:(NSURL *)url;
+
+
+/**
+ * Returns the resource scope from a response for a request to a MobileFirst protected resource.
+ *
+ * @param NSDictionary Response headers returned for the request to a protected resource.
+ * @return Scope that is returned in the <code>WWW-Authenticate</code> header
+ */
+- (NSString*) resourceScopeFromResponseHeaders:(NSDictionary *)headers;
+
 @end

@@ -11,7 +11,7 @@
 @class WLWifiAcquisitionPolicy;
 
 /**
- * A trigger definition handling wifi areas (a list of {@link WLWifiAccessPointFilter}).
+ * A trigger definition handling wifi areas (a list of WLWifiAccessPointFilter).
  */
 @interface AbstractWifiAreaTrigger : WLWifiTrigger {
 	@private
@@ -29,13 +29,13 @@
 - (NSMutableArray*) getAreaAccessPoints  ;
 /**
 	 * @return the confidence level used for determining WiFi access point visibility.
-	 * The default is {@link WLConfidenceLevel#LOW}.	 
+	 * The default is WLConfidenceLevel.LOW.	 
 	 */
 - (WLConfidenceLevel) getConfidenceLevel  ;
 /**
 	 * @return whether only the access points specified for areaAccessPoints should be visible or not.
 	 * The default value is false.
-	 * @see #setOtherAccessPointsAllowed(boolean)
+	 * @see setOtherAccessPointsAllowed:
 	 */
 - (BOOL) areOtherAccessPointsAllowed  ;
 /**
@@ -55,7 +55,7 @@
 /**
 	 * Only access points whose signal strength meets the confidence level are considered visible.
 	 * @param confidenceLevel specifies the minimum signal strength necessary for an access point.
-	 * The default is {@link WLConfidenceLevel#LOW}.
+	 * The default is WLConfidenceLevel.LOW.
 	 * @return A reference to this object.
 	 * @see WLConfidenceLevel
 	 */

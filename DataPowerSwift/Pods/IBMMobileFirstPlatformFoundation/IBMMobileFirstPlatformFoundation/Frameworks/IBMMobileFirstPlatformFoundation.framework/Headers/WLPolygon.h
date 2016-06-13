@@ -12,7 +12,6 @@
 @protocol AreaVisitor;
 
 /**
- * @ingroup geo
  * A polygon is defined by a list of coordinates.
  * This class is immutable.
  */
@@ -45,8 +44,10 @@
 	 * @return The coordinate with index <code>idx</code> in the list.
 	 */
 - (WLCoordinate*) get : (int) idx ;
+
+// TO DO: this method has previously an unsupported @exclude tag
 /**
-	 * @exclude
+	 *
 	 */
 - (NSObject*) accept : (id<AreaVisitor>) visitor ;
 

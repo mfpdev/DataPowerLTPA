@@ -10,16 +10,15 @@
 @protocol AreaVisitor;
 
 /**
- * @ingroup geo
  * This protocol provides the parent interface for geometric shapes.
  */
 @protocol WLArea <NSObject> 
 
+// TO DO:  originally this method had an unsupported @exclude tag
 /**
-	 * @param visitor
-	 * @return the visitor's return value
-	 * @exclude
-	 */
+ * @param visitor the visitor
+ * @return the visitor's return value
+ */
 - (NSObject*) accept : (id<AreaVisitor>) visitor ;
 
 @end

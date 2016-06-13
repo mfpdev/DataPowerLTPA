@@ -10,7 +10,6 @@
 @class WLWifiAccessPoint;
 
 /**
- * @ingroup geo
  * A wifi location as determined by the visible access points and connected access point, filtered by a policy.
  */
 @interface WLWifiLocation : AbstractPosition {
@@ -21,13 +20,12 @@
 }
 
 
-
+// TO DO: was containing an unsupported @exclude tag
 /**
-	 * Creates a new {@link WLWifiLocation}
+	 * Creates a new WLWifiLocation
 	 * 
 	 * @param accessPoints The access points acquired, which have passed the filter of the policy
 	 * @param acquisitionTime The time of the acquisition
-	 * @exclude
 	 */
 - (id)initWithAccessPoints:(NSMutableArray*)accessPoints connectedAccessPoint:(WLWifiAccessPoint*)connectedAccessPoint connectedSignalStrength:(NSNumber*)connectedSignalStrength acquisitionTime:(long long)acquisitionTime;
 
@@ -46,7 +44,7 @@
 - (WLWifiAccessPoint*) getConnectedAccessPoint  ;
 /**
 	 * @return The signal strength for the connected access point as a percentage. Returns <code>null</code> if
-	 *         {@link #getConnectedAccessPoint()} returns <code>null</code>.
+	 *         getConnectedAccessPoint returns <code>null</code>.
 	 */
 - (NSNumber*) getConnectedSignalStrength  ;
 - (int) hash  ;

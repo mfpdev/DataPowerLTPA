@@ -16,7 +16,6 @@ typedef enum {
 
 
 /**
- * @ingroup geo
  * A <code>WLGeoError</code> object is created when an error is encountered during acquisition of a geographical position.
  */
 @interface WLGeoError : AbstractAcquisitionError {
@@ -35,7 +34,6 @@ typedef enum {
 /**
  * This method returns the error code.
  *
- * @param None.
  * @return The error code
  **/
 - (WLGeoErrorCodes) getErrorCode  ;

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup geo
  * A callback for viewing the list of visible WiFi access points.
  */
 @protocol WLWifiAcquisitionCallback <NSObject> 

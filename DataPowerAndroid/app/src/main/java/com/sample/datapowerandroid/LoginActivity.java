@@ -1,73 +1,75 @@
 package com.sample.datapowerandroid;
 
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.worklight.wlclient.api.WLClient;
-
 public class LoginActivity extends AppCompatActivity {
-
     private EditText usernameField, passwordField;
     private Button loginButton, cancelButton;
-    private static WLClient client;
     private static final String TAG = "LoginActivity";
-    private static LoginActivity _this;
-    private Intent result;
-
-    public static final String Back = "back";
-    public static final String UserNameExtra = "username";
-    public static final String PasswordExtra = "password";
+    private BroadcastReceiver loginSuccessReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _this = this;
-        client = WLClient.getInstance();
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         usernameField = (EditText)findViewById(R.id.username);
         passwordField = (EditText)findViewById(R.id.password);
         loginButton = (Button)findViewById(R.id.login);
         cancelButton = (Button)findViewById(R.id.cancel);
-        result = new Intent();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = usernameField.getText().toString();
                 String password = passwordField.getText().toString();
-
-                result.putExtra(UserNameExtra, username);
-                result.putExtra(PasswordExtra, password);
-                result.putExtra(Back, false);
-                setResult(RESULT_OK, result);
-                finish();
+                DataPowerChallengeHandler.getInstance().submitLogin(username,password);
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                result.putExtra(Back, true);
-                setResult(RESULT_OK, result);
-                finish();
+                DataPowerChallengeHandler.getInstance().cancel();
             }
         });
+
+
+        loginSuccessReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d(TAG, "loginSuccessReceiver");
+                finish();
+            }
+        };
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver(loginSuccessReceiver, new IntentFilter(Constants.ACTION_LOGIN_SUCCESS));
+    }
+
+    @Override
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(loginSuccessReceiver);
+        super.onStop();
+    }
+
+    @Override
     public void onBackPressed() {
-        result.putExtra(Back, true);
-        setResult(RESULT_OK, result);
-        finish();
+        DataPowerChallengeHandler.getInstance().cancel();
     }
-
 }

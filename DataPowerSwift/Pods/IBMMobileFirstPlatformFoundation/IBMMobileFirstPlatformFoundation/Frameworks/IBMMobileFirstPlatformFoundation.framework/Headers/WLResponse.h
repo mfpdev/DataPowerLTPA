@@ -1,8 +1,13 @@
-/*
-* Licensed Materials - Property of IBM
-* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
-* US Government Users Restricted Rights - Use, duplication or
-* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 */
 
 //
@@ -17,22 +22,20 @@
 #import "WLProcedureInvocationResult.h"
 
 /**
- * @ingroup main
- *
  * This class contains the result of a procedure invocation. IBM MobileFirst Platform passes this class as an argument to the
  * delegate methods of <code>WLClient</code> <code>invokeProcedure</code> methods.
  */
 @interface WLResponse : NSObject {
-	NSInteger status;
 	WLProcedureInvocationResult *invocationResult;
 	NSObject *invocationContext;
 	NSString *responseText;
+    NSDictionary *userInfoDict;
 }
 
 /**
  * Retrieves the HTTP status from the response.
  */
-@property (nonatomic) int status;
+@property (nonatomic) NSInteger status;
 
 /**
  * Response data from the server.
@@ -60,6 +63,11 @@
 @property (readonly) NSData* responseData;
 
 /**
+ * user info
+ */
+@property (nonatomic, strong) NSDictionary* userInfoDict;
+
+/**
  * Returns the value <code>NSDictionary</code> in case the response is a JSON response, otherwise it returns the value nil.
  */
 @property (readonly) NSDictionary * responseJSON;
@@ -69,7 +77,7 @@
  *
  * @param NSDictionary Root of the JSON object
  *
- * @deprecated This method is deprecated. Use the {@link responseJson} property instead.
+ * @deprecated This method is deprecated. Use the responseJSON property instead.
  *
  **/
 -(NSDictionary *)getResponseJson;

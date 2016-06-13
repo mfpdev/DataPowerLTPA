@@ -21,9 +21,8 @@
 
 - (id) init  ;
 + (BOOL) doesPolicyIntersectWithFilter : (WLWifiAcquisitionPolicy*) policy : (WLWifiAccessPointFilter*) filter ;
-/**
-	 * @exclude
-	 */
+ 
+ // TO DO:  originally this method had an unsupported @exclude tag
 - (BOOL) validate : (WLWifiAcquisitionPolicy*) policy ;
 /**
 	 * @return the filter which the connected Wifi access point must match in order for the trigger to activate.

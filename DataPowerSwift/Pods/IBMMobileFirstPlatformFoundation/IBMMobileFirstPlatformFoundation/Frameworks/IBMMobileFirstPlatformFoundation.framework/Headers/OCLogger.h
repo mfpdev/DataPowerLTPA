@@ -1,9 +1,14 @@
-/*
- *  Licensed Materials - Property of IBM
- *  5725-I43 (C) Copyright IBM Corp. 2011, 2015. All Rights Reserved.
- *  US Government Users Restricted Rights - Use, duplication or
- *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 
 #import <Foundation/Foundation.h>
 #import "WLDelegate.h"
@@ -137,15 +142,6 @@ typedef enum {
  */
 -(void) metadata:(NSDictionary*) metadata fatal: (NSString*) text, ...;
 
-/**
- This method logs at ANALYTICS level.
- @param String message to be logged
- @param metadata Dictionary containing metadata to append to the log output
- @since IBM Worklight V7.1.0
- */
--(void) metadata:(NSDictionary*) metadata analytics: (NSString*) text, ...;
-
-
 //Static methods
 
 /**
@@ -234,19 +230,11 @@ typedef enum {
 +(void) setLevel: (OCLogType) level;
 
 /**
- Global setting: Turn automatic sending of client logs on or off
- @param Boolean flag determining whether or not logs are automatically forwarded to the server
- @since IBM Worklight V6.2.0
+ Get and apply the configuration from the IBM MobileFirst Platform Server.  The configuration comes from the use of
+ the "Config Profiles" tab in the IBM MobileFirst Platform administrative console.
+ Note that this configuration will override the current configuration set on the device.
  */
-+(void) setAutoSendLogs: (BOOL) flag;
-
-/**
- Global setting: Turn automatic retrieval of configuration profiles from the server
- @param Boolean flag determining whether or not configuration profiles will be automatically retrieved from the server
- @since IBM Worklight V6.2.0
- @deprecated V6.3.0
- */
-+(void) setAutoUpdateConfigFromServer: (BOOL) flag;
++(void) updateConfigFromServer;
 
 /**
  This method indicates that an uncaught exception was detected.  The indicator is cleared on successful send.

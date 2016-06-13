@@ -1,11 +1,17 @@
-/*
-* Licensed Materials - Property of IBM
-* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
-* US Government Users Restricted Rights - Use, duplication or
-* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 */
 
 #import <Foundation/Foundation.h>
+#import "WLSecurityCommonUtils.h"
 
 /**
  IBM MobileFirst Platform Security Utilities.
@@ -84,14 +90,6 @@ extern NSString * const WLClientErrorDomain;
                              length:(int) length;
 
 /**
- Takes an NSString and returns Base64 encoded NSData.
- @param string Input NSString
- @return Base64 encoded NSData
- @since IBM Worklight V6.2.0
- */
-+ (NSData*) base64DataFromString:(NSString*) string;
-
-/**
  Reads Base64 encoded file and writes decoded output to output file
  @param handleInput Handle to input file; the caller is responsible for closing the file
  @param outputFileName Full path to output file
@@ -112,4 +110,7 @@ extern NSString * const WLClientErrorDomain;
 +(NSString *)readSignatureWithLength:(int)length withPath:(NSString*) path;
 
 +(int)padFileLastBytes:(int)nBytesFromEndOfFile withPaddingChar:(char)padd filePath:(NSString*) path;
+
++(void) enableOSNativeEncryption:(BOOL) enable;
+
 @end

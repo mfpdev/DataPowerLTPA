@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup geo
  * A configuration object containing the triggers.
- * The policy should be set in an instance of {@link WLLocationServicesConfiguration} which 
- * is then passed to {@link WLDevice#startAcquisition(WLLocationServicesConfiguration)}
- * <p>
+ * The policy should be set in an instance of WLLocationServicesConfiguration which 
+ * is then passed to [WLDevice startAcquisition:]
+ * 
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls. 
  */

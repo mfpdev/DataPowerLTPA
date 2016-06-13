@@ -12,9 +12,8 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger definition that is activated when the device remains outside an area for a specified period of time. In order to reactivate the trigger, the device must first enter the area, and then leave the area again.
- * <p>
+ *
  * The setters of this class return a reference to this object so as to enable chaining calls.
  */
 @interface WLGeoDwellOutsideTrigger : AbstractGeoDwellTrigger {
@@ -23,7 +22,6 @@
 /**
  * This method initializes the trigger definition.
  *
- * @param None.
  **/
 - (id) init  ;
 

@@ -1,9 +1,14 @@
-/*
- *  Licensed Materials - Property of IBM
- *  5725-I43 (C) Copyright IBM Corp. 2011, 2013. All Rights Reserved.
- *  US Government Users Restricted Rights - Use, duplication or
- *  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+/**
+	Licensed Materials - Property of IBM
+
+	(C) Copyright 2015 IBM Corp.
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 
 extern NSString* const TAG_LABEL_TRACE;
 extern NSString* const TAG_LABEL_DEBUG;
@@ -23,7 +28,7 @@ extern NSString* const KEY_LEVEL;
 extern NSString* const KEY_CAPTURE;
 extern NSString* const KEY_FILTER;
 extern NSString* const KEY_ANALYTICS_CAPTURE;
-extern NSString* const KEY_AUTO_SEND;
+//extern NSString* const KEY_AUTO_SEND;
 
 extern NSString* const KEY_SERVER_LEVEL;
 extern NSString* const KEY_SERVER_CAPTURE;
@@ -67,7 +72,7 @@ extern NSString* const TAG_LOG_LEVEL;
 extern NSString* const TAG_UNCAUGHT_EXCEPTION;
 extern NSString* const TAG_FILTERS;
 
-extern NSString* const TAG_AUTO_SEND;
+//extern NSString* const TAG_AUTO_SEND;
 
 extern NSString* const TAG_SERVER_CAPTURE;
 extern NSString* const TAG_SERVER_LOG_LEVEL;
@@ -116,13 +121,12 @@ extern NSString* const SIMPLE_DATA_SHARING_PACKAGE;
 extern NSString* const WL_DIRECT_UPDATE_PACKAGE;
 extern NSString* const WL_SPLASH_PACKAGE;
 extern NSString* const WL_CLIENT_PACKAGE;
-extern NSString* const WL_AFHTTPRequestOperationManagerWrapper_PACKAGE;
+extern NSString* const WL_AFHTTPSessionManagerWrapper_PACKAGE;
 extern NSString* const WL_REQUEST_PACKAGE;
 extern NSString* const WL_INIT_PACKAGE;
 extern NSString* const WL_ACTION_PACKAGE;
 extern NSString* const WL_AUTH_PACKAGE;
 extern NSString* const WL_OAUTH_PACKAGE;
-extern NSString* const WL_TRUSTEER_PACKAGE;
 extern NSString* const WL_PUSH_PACKAGE;
 extern NSString* const WL_CONFIG_PACKAGE;
 

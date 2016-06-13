@@ -10,7 +10,6 @@
 #import "AcquisitionFailureCallback.h"
 
 /**
- * @ingroup geo
  * A callback for when an error occurs in WiFi acquisition
  */
 @protocol WLWifiFailureCallback <AcquisitionFailureCallback> 

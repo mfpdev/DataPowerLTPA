@@ -16,7 +16,6 @@
 #import <Foundation/Foundation.h>
 
 /**
- * @ingroup push
  * WLOnReadyToSubscribeListener
  */
 @protocol WLOnReadyToSubscribeListener <NSObject>

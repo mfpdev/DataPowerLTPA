@@ -1,1 +1,0 @@
-../../../../IBMMobileFirstPlatformFoundation/IBMMobileFirstPlatformFoundation/Frameworks/openssl.framework/Headers/ui_compat.h

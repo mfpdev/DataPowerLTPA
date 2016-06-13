@@ -12,11 +12,10 @@
 @protocol WLTriggerCallback;
 
 /**
- * @ingroup geo
  * A trigger definition that is activated when a device leaves an area.  The device must first have been inside the area and
  * then exited the area at the given confidence level in order for the trigger to activate. In order to re-activate
  * the device must first enter the area.
- * <p>
+ * 
  * This class, like most classes used for configuring location services, returns
  * a reference to this object from its setters, to enable chaining calls.
  */
