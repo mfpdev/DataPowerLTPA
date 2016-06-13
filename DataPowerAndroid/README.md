@@ -1,6 +1,6 @@
 IBM MobileFirst Platform Foundation
 ===
-## DataPowerCordova
+## DataPowerAndroid
 A sample application demonstrating DataPower LTPA functionality.
 
 ### Blog post
@@ -13,17 +13,15 @@ http://ibm.biz/mobilefirstdatapower
  The ResourceAdapter adapter can be found in https://github.com/MobileFirst-Platform-Developer-Center/SecurityCheckAdapters/tree/release80.
 
 2. From a command-line window, navigate to the project's root folder and run the commands:
- - `cordova platform add` - to add a platform.
  - `mfpdev app register` - to register the application.
  - `mfpdev app push` - to map the `accessRestricted` scope to the `LtpaBasedSSO` security check.
- - Update the **config.xml** 's `<mfp:server>` tag with the IP and port for your configured DataPower instance.
- - `cordova run` - to run the application.
+ - Update the **mfpclient.properties** with the IP and port for your configured DataPower instance.
 
 ### Supported Levels
 IBM MobileFirst Platform Foundation 8.0
 
 ### License
-Copyright 2015 IBM Corp.
+Copyright 2016 IBM Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
