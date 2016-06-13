@@ -1,6 +1,6 @@
 # DataPower Samples
 
-This sample demonstrates the blog post: http://ibm.biz/mobilefirstdatapower
+This sample demonstrates the blog post: https://mobilefirstplatform.ibmcloud.com/blog/2016/02/20/datapower-integration/
 
 This samples contains 4 artifacts:
 
