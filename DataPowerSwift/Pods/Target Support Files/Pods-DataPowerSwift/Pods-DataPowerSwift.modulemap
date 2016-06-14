@@ -1,6 +1,0 @@
-framework module Pods_DataPowerSwift {
-  umbrella header "Pods-DataPowerSwift-umbrella.h"
-
-  export *
-  module * { export * }
-}

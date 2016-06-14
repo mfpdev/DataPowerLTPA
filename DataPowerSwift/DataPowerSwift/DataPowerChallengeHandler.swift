@@ -18,7 +18,7 @@ class DataPowerChallengeHandler : GatewayChallengeHandler {
     }
     
     override func canHandleResponse(response: WLResponse!) -> Bool {
-        print("DataPowerChallengeHandler isCustomResponse")
+        print("DataPowerChallengeHandler canHandleResponse")
         if response != nil && response.responseText != nil{
             if response.responseText.lowercaseString.rangeOfString("j_security_check") != nil{
                 NSLog("Detected j_security_check string - returns true")
