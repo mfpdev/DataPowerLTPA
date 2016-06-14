@@ -31,7 +31,7 @@ public class DataPowerChallengeHandler extends GatewayChallengeHandler{
 
     @Override
     public boolean canHandleResponse(WLResponse wlResponse) {
-        Log.d(TAG,"isCustomResponse");
+        Log.d(TAG,"canHandleResponse");
         if (wlResponse == null
                 || wlResponse.getResponseText() == null ||
                 wlResponse.getResponseText().indexOf("j_security_check") == -1) {
